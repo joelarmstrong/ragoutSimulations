@@ -17,7 +17,11 @@ all: ${rootPath}/annots.gff ${rootPath}/seq.rev stats
 
 ${rootPath}/annots.gff: $(foreach chrPath, ${chrPaths}, ${chrPath}/annots.gff.new)
 	@mkdir -p $(dir $@)
-	cat $^ > $@.tmp
+# evolver_evo breaks when parsing the GFF lines that don't have a
+# gene_index, so we get rid of any entries that don't have an
+# index. This unfortunately means the non-coding conserved elements
+# are currently not included.
+	grep gene_index $^ > $@.tmp
 	mv $@.tmp $@
 
 ${rootPath}/seq.rev: ${rootPath}/root.fa
