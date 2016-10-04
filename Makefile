@@ -21,7 +21,7 @@ ${rootPath}/annots.gff: $(foreach chrPath, ${chrPaths}, ${chrPath}/annots.gff.ne
 # gene_index, so we get rid of any entries that don't have an
 # index. This unfortunately means the non-coding conserved elements
 # are currently not included.
-	grep gene_index $^ > $@.tmp
+	grep -h gene_index $^ > $@.tmp
 	mv $@.tmp $@
 
 ${rootPath}/seq.rev: ${rootPath}/root.fa
