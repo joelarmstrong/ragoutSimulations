@@ -7,11 +7,15 @@
 # Settings.
 rootName:=root
 rootPath:=./root
-chrs:=chr1 chr2 chr3 chr4 chr5 chr6 chr7 chr8 chr9 chr10 chr11 chr12 chr13 chr14 chr15 chr16 chr17 chr18 chr19
+chrs:=chr11 chr12 chr13 chr14 chr15 chr16 #chr17 chr18 chr19 chr1 chr2 chr3 chr4 chr5 chr6 chr7 chr8 chr9 chr10 
 dataPath:=.
 
 chrPaths:=$(foreach chr, $(chrs), ${dataPath}/${chr})
 seqPaths:=$(foreach chr, $(chrs), ${dataPath}/${chr}/seq.rev)
+
+%/DONE: %.nh
+	simCtrl_runSim.py --inputNewick $(shell cat $<) --outDir $(dir $@) --rootDir root --paramsDir params --maxThreads 30 --maxCpu 30 --noMEs --jobTree jobTree$(shell basename $<)
+	touch $@
 
 all: ${rootPath}/annots.gff ${rootPath}/seq.rev stats
 
